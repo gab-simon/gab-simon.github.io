@@ -217,6 +217,54 @@ export function IPodClassic({
     setVolume(Math.max(0, Math.min(100, newVolume)))
   }
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent default behavior for navigation keys
+      if (['w', 's', 'a', 'd', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'Enter'].includes(e.key)) {
+        e.preventDefault()
+      }
+
+      const key = e.key.toLowerCase()
+
+      // Up navigation (W or ArrowUp)
+      if (key === 'w' || key === 'arrowup') {
+        handleScrollUp()
+      }
+      // Down navigation (S or ArrowDown)
+      else if (key === 's' || key === 'arrowdown') {
+        handleScrollDown()
+      }
+      // Left navigation (A or ArrowLeft) - Menu/Back or Previous track
+      else if (key === 'a' || key === 'arrowleft') {
+        if (navigation.level === "nowPlaying") {
+          handlePrevious()
+        } else {
+          handleMenu()
+        }
+      }
+      // Right navigation (D or ArrowRight) - Select or Next track
+      else if (key === 'd' || key === 'arrowright') {
+        if (navigation.level === "nowPlaying") {
+          handleNext()
+        } else {
+          handleSelect()
+        }
+      }
+      // Space - Play/Pause
+      else if (key === ' ') {
+        handlePlayPause()
+      }
+      // Enter - Select
+      else if (key === 'enter') {
+        handleSelect()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [navigation, selectedIndex, isPlaying])
+
   const isInMenu = navigation.level !== "nowPlaying"
 
   return (

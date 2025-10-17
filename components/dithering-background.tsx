@@ -12,11 +12,11 @@ export default function DitheringBackground({
     <div className={`absolute inset-0 ${className}`}>
       <Dithering
         colorBack="#00000000"
-        colorFront="#56AE6C"
+        colorFront="#474747ff"
         speed={0.35}
-        shape="warp"
+        shape="simplex"
         type="2x2"
-        pxSize={4.3}
+        pxSize={3.3}
         scale={0.90}
         style={{
           backgroundColor: "#1A1A1C",
